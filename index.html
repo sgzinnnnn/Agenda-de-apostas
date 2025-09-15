@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Apostas Tracker</title>
+<link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+<div class="container">
+  <header>
+    <h1>Apostas Tracker</h1>
+    <p class="subtitle">Desktop & Mobile • LocalStorage • CSV</p>
+  </header>
+
+  <!-- Formulário -->
+  <section class="grid">
+    <form id="betForm" class="card">
+      <h2>Adicionar aposta</h2>
+      <input type="date" id="date" required />
+      <select id="event" required>
+        <option value="">Selecione o esporte</option>
+        <option value="Futebol">Futebol</option>
+        <option value="Basquete">Basquete</option>
+        <option value="Tênis">Tênis</option>
+        <option value="Vôlei">Vôlei</option>
+        <option value="Futebol Americano">Futebol Americano</option>
+        <option value="Fórmula 1">Fórmula 1</option>
+        <option value="Esportes de Luta">Esportes de Luta</option>
+      </select>
+          <select id="event" required>
+            <option value="">Selecione o esporte</option>
+            <option value="Futebol">Futebol</option>
+            <option value="Basquete">Basquete</option>
+            <option value="Tênis">Tênis</option>
+            <option value="Vôlei">Vôlei</option>
+            <option value="Futebol Americano">Futebol Americano</option>
+            <option value="Fórmula 1">Fórmula 1</option>
+            <option value="Esportes de Luta">Esportes de Luta</option>
+          </select>
+      <input type="number" id="Valor" placeholder="Valor" required />
+      <input type="number" id="odds" placeholder="Odds" step="0.01" required />
+      <input type="number" id="stake" placeholder="Stake" required />
+      <select id="result">
+        <option value="pending">Pendente</option>
+        <option value="win">Ganha</option>
+        <option value="loss">Perdida</option>
+      </select>
+      <button type="submit">Adicionar</button>
+    </form>
+
+    <!-- Resumo -->
+    <aside class="card resumo">
+      <h2>Resumo</h2>
+      <p id="lucro" class="res-lucro">Lucro: R$ 0,00</p>
+      <p id="perda" class="res-perda">Perda: R$ 0,00</p>
+      <p id="total" class="res-total">Total (Lucro - Perda): R$ 0,00</p>
+      <canvas id="chart" width="300" height="150"></canvas>
+      <button id="exportBtn">Exportar CSV</button>
+      <input type="file" id="importFile" accept=".csv"/>
+    </aside>
+  </section>
+
+  <!-- Tabela de apostas -->
+  <section class="card">
+    <div class="filters">
+      <select id="filter">
+        <option value="all">Todos</option>
+        <option value="pending">Pendente</option>
+        <option value="win">Ganha</option>
+        <option value="loss">Perdida</option>
+      </select>
+      <input type="text" id="search" placeholder="Buscar evento"/>
+      <select id="sort">
+        <option value="date_desc">Data (recente)</option>
+        <option value="date_asc">Data (antiga)</option>
+        <option value="profit_desc">Lucro (maior)</option>
+        <option value="profit_asc">Lucro (menor)</option>
+      </select>
+    </div>
+    <table>
+      <thead>
+        <tr>
+          <th>Data</th>
+          <th>Esporte</th>
+          <th>Valor</th>
+          <th>Odds</th>
+          <th>Resultado</th>
+          <th>Lucro</th>
+          <th>Ações</th>
+        </tr>
+      </thead>
+      <tbody id="betTable"></tbody>
+    </table>
+  </section>
+
+  <footer>
+    Feito com ❤️ — Funciona no desktop e mobile.
+  </footer>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
