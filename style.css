@@ -7,7 +7,7 @@
 
 body { 
   font-family: "Segoe UI", sans-serif; 
-  background: #f4f6f9; 
+  background: #f4f9f7; 
   color: #333; 
   line-height: 1.6; 
 }
@@ -100,7 +100,7 @@ thead {
 
 .actions button { 
   font-size: 10px; 
-  padding: 900px 6px; 
+  padding: 4px 6px; 
   margin: 2px 2px 2px 0; 
   border-radius: 6px; 
 }
@@ -272,5 +272,38 @@ footer {
   .actions {
     display: flex;
     gap: 10px;
+  }
+}
+@media (min-width: 769px) {
+  table {
+    font-size: 14px;
+  }
+
+  table td {
+    padding: 10px;
+  }
+
+  .actions {
+    display: flex;
+    gap: 10px;
+  }
+
+  /* <<< AQUI ESTÃO OS NOVOS AJUSTES >>> */
+  .actions button,
+  .btn {
+    font-size: 14px;
+    padding: 8px 14px;
+  }
+
+  .btn-toggle,
+  .btn-cashout,
+  .btn-remove {
+    font-size: 14px;
+    padding: 8px 14px;
+  }
+
+  td.acoes .botoes .btn {
+    padding: 8px 14px;
+    font-size: 14px;
   }
 }
