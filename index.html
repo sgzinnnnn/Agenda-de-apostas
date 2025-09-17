@@ -3,14 +3,14 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Apostas Tracker</title>
+<title>Historico De Apostas</title>
 <link rel="stylesheet" href="style.css"/>
 </head>
 <body>
 <div class="container">
   <header>
-    <h1>Apostas Tracker</h1>
-    <p class="subtitle">Desktop & Mobile • LocalStorage • CSV</p>
+    <h1>Historico De Apostas</h1>
+    <p class="subtitle">Guarde suas apostas e veja o seu lucro</p>
   </header>
 
   <!-- Formulário -->
@@ -25,7 +25,6 @@
         <option value="Tênis">Tênis</option>
         <option value="Vôlei">Vôlei</option>
         <option value="Futebol Americano">Futebol Americano</option>
-        <option value="Fórmula 1">Fórmula 1</option>
         <option value="Esportes de Luta">Esportes de Luta</option>
       </select>
           <select id="event" required>
@@ -35,26 +34,48 @@
             <option value="Tênis">Tênis</option>
             <option value="Vôlei">Vôlei</option>
             <option value="Futebol Americano">Futebol Americano</option>
-            <option value="Fórmula 1">Fórmula 1</option>
             <option value="Esportes de Luta">Esportes de Luta</option>
+            <option value="Nenhum">Nenhum</option>
           </select>
-      <input type="number" id="Valor" placeholder="Valor" required />
-      <input type="number" id="odds" placeholder="Odds" step="0.01" required />
-      <input type="number" id="stake" placeholder="Stake" required />
+          <input type="text" id="stake" placeholder="Valor da aposta" required />
+      <input type="text" id="odds" placeholder="Odds" step="0.01" required />
       <select id="result">
         <option value="pending">Pendente</option>
         <option value="win">Ganha</option>
         <option value="loss">Perdida</option>
       </select>
+      <p>Valor de Ganho: R$ <span id="gainValue">0.00</span></p>
       <button type="submit">Adicionar</button>
+
     </form>
+
+
+
+<script>
+    // Função para calcular o valor de ganho
+    function calcularGanho() {
+        // Obtém os valores dos campos de entrada
+        const stake = parseFloat(document.getElementById('stake').value) || 0;
+        const odds = parseFloat(document.getElementById('odds').value) || 0;
+
+        // Calcula o valor de ganho
+        const gainValue = stake * odds;
+
+        // Exibe o valor de ganho formatado
+        document.getElementById('gainValue').textContent = gainValue.toFixed(2);
+    }
+
+    // Adiciona eventos de 'input' para atualizar o valor de ganho em tempo real
+    document.getElementById('stake').addEventListener('input', calcularGanho);
+    document.getElementById('odds').addEventListener('input', calcularGanho);
+</script>
 
     <!-- Resumo -->
     <aside class="card resumo">
       <h2>Resumo</h2>
       <p id="lucro" class="res-lucro">Lucro: R$ 0,00</p>
       <p id="perda" class="res-perda">Perda: R$ 0,00</p>
-      <p id="total" class="res-total">Total (Lucro - Perda): R$ 0,00</p>
+      <p id="total" class="res-total">Total (Lucro + Perda): R$ 0,00</p>
       <canvas id="chart" width="300" height="150"></canvas>
       <button id="exportBtn">Exportar CSV</button>
       <input type="file" id="importFile" accept=".csv"/>
@@ -94,8 +115,10 @@
     </table>
   </section>
 
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <footer>
-    Feito com ❤️ — Funciona no desktop e mobile.
+    Feito por Sgzinn 
   </footer>
 </div>
 

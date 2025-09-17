@@ -1,51 +1,276 @@
 /* Reset básico */
-* { margin:0; padding:0; box-sizing:border-box; }
-body { font-family:"Segoe UI", sans-serif; background:#f4f6f9; color:#333; line-height:1.6; }
-.container { max-width:1100px; margin:auto; padding:10px; }
+* { 
+  margin: 0; 
+  padding: 0; 
+  box-sizing: border-box; 
+}
 
-header { display:flex; flex-direction:column; align-items:center; margin-bottom:10px; text-align:center; }
-h1 { font-size:24px; }
-.subtitle { font-size:12px; color:#7f8c8d; }
+body { 
+  font-family: "Segoe UI", sans-serif; 
+  background: #f4f6f9; 
+  color: #333; 
+  line-height: 1.6; 
+}
 
-.card { background:#fff; padding:12px; border-radius:12px; box-shadow:0 3px 8px rgba(0,0,0,0.06); margin-bottom:12px; }
+.container { 
+  max-width: 1100px; 
+  margin: auto; 
+  padding: 10px; 
+}
 
-input, select, button { width:100%; padding:8px; margin:6px 0; border-radius:8px; border:1px solid #ddd; font-size:14px; }
-input:focus, select:focus { outline:none; border-color:#3498db; }
-button { background:#3498db; color:#fff; font-weight:bold; border:none; cursor:pointer; }
-button:hover { background:#2980b9; }
+header { 
+  display: flex; 
+  flex-direction: column; 
+  align-items: center; 
+  margin-bottom: 10px; 
+  text-align: center; 
+}
 
-.grid { display:grid; grid-template-columns:2fr 1fr; gap:10px; }
+h1 { 
+  font-size: 24px; 
+}
 
-.filters { display:flex; flex-wrap:wrap; gap:6px; margin-bottom:8px; }
+.subtitle { 
+  font-size: 12px; 
+  color: #7f8c8d; 
+}
 
-table { width:100%; border-collapse:collapse; font-size:12px; }
-th, td { padding:6px; border-bottom:1px solid #ddd; text-align:left; }
-thead { background:#ecf0f1; }
-.actions button { font-size:10px; padding:4px 6px; margin:2px 2px 2px 0; border-radius:6px; }
+.card { 
+  background: #fff; 
+  padding: 12px; 
+  border-radius: 12px; 
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.06); 
+  margin-bottom: 12px; 
+}
 
-#chart { margin-top:6px; border-radius:8px; background:#f8f9fa; }
+input, select, button { 
+  width: 100%; 
+  padding: 8px; 
+  margin: 6px 0; 
+  border-radius: 8px; 
+  border: 1px solid #ddd; 
+  font-size: 14px; 
+}
 
-.res-lucro { color:#27ae60; font-weight:bold; }
-.res-perda { color:#c0392b; font-weight:bold; }
-.res-total { color:#2980b9; font-weight:bold; }
+input:focus, select:focus { 
+  outline: none; 
+  border-color: #3498db; 
+}
 
-footer { text-align:center; font-size:10px; color:#7f8c8d; margin-top:8px; }
+button { 
+  background: #3498db; 
+  color: #fff; 
+  font-weight: bold; 
+  border: none; 
+  cursor: pointer; 
+}
+
+button:hover { 
+  background: #2980b9; 
+}
+
+.grid { 
+  display: grid; 
+  grid-template-columns: 2fr 1fr; 
+  gap: 10px; 
+}
+
+.filters { 
+  display: flex; 
+  flex-wrap: wrap; 
+  gap: 6px; 
+  margin-bottom: 8px; 
+}
+
+table { 
+  width: 100%; 
+  border-collapse: collapse; 
+  font-size: 12px; 
+}
+
+th, td { 
+  padding: 6px; 
+  border-bottom: 1px solid #ddd; 
+  text-align: left; 
+}
+
+thead { 
+  background: #ecf0f1; 
+}
+
+.actions button { 
+  font-size: 10px; 
+  padding: 900px 6px; 
+  margin: 2px 2px 2px 0; 
+  border-radius: 6px; 
+}
+
+#chart { 
+  margin-top: 6px; 
+  border-radius: 8px; 
+  background: #f8f9fa; 
+}
+
+.res-lucro { 
+  color: #27ae60; 
+  font-weight: bold; 
+}
+
+.res-perda { 
+  color: #c0392b; 
+  font-weight: bold; 
+}
+
+.res-total { 
+  color: #2980b9; 
+  font-weight: bold; 
+}
+
+footer { 
+  text-align: center; 
+  font-size: 10px; 
+  color: #7f8c8d; 
+  margin-top: 8px; 
+}
 
 /* Responsividade Mobile */
 @media (max-width: 768px) {
-  .grid { grid-template-columns:1fr; }
-  .filters { flex-direction:column; }
-  table, thead, tbody, th, td, tr { display:block; }
-  thead tr { display:none; }
-  tr { margin-bottom:12px; border-bottom:1px solid #ddd; }
-  td { position: relative; padding-left:50%; text-align:left; font-size:13px; }
-  td::before { position:absolute; left:12px; width:45%; font-weight:bold; white-space:nowrap; }
-  td:nth-of-type(1)::before { content:"Data"; }
-  td:nth-of-type(2)::before { content:"Esporte"; }
-  td:nth-of-type(3)::before { content:"Stake"; }
-  td:nth-of-type(4)::before { content:"Odds"; }
-  td:nth-of-type(5)::before { content:"Resultado"; }
-  td:nth-of-type(6)::before { content:"Lucro"; }
-  td:nth-of-type(7)::before { content:"Ações"; }
-  #chart { width:100% !important; height:200px !important; }
+  /* Ajusta a grid para telas pequenas */
+  .grid { 
+    grid-template-columns: 1fr; 
+  }
+
+  /* Ajuste nos filtros, tornando-os verticais */
+  .filters { 
+    flex-direction: column; 
+  }
+
+  /* Reformatando a tabela para exibição em formato de lista */
+  table, thead, tbody, th, td, tr { 
+    display: block; 
+  }
+
+  thead tr { 
+    display: none; 
+  }
+
+  tr { 
+    margin-bottom: 12px; 
+    border-bottom: 1px solid #ddd; 
+  }
+
+  td { 
+    position: relative; 
+    padding-left: 50%; 
+    text-align: left; 
+    font-size: 13px; 
+  }
+
+  td::before { 
+    position: absolute; 
+    left: 12px; 
+    width: 45%; 
+    font-weight: bold; 
+    white-space: nowrap; 
+  }
+
+  td:nth-of-type(1)::before { 
+    content: "Data"; 
+  }
+
+  td:nth-of-type(2)::before { 
+    content: "Esporte"; 
+  }
+
+  td:nth-of-type(3)::before { 
+    content: "Stake"; 
+  }
+
+  td:nth-of-type(4)::before { 
+    content: "Odds"; 
+  }
+
+  td:nth-of-type(5)::before { 
+    content: "Resultado"; 
+  }
+
+  td:nth-of-type(6)::before { 
+    content: "Lucro"; 
+  }
+
+  td:nth-of-type(7)::before { 
+    content: "Ações"; 
+  }
+
+  #chart { 
+    width: 100% !important; 
+    height: 200px !important; 
+  }
+
+  /* Reajustando o tamanho e layout dos botões */
+  td.acoes .acoes-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  /* Ajuste de tamanho dos botões dentro das colunas */
+  td.acoes .botoes .btn {
+    padding: 5px 10px;
+    font-size: 13px;
+  }
+
+  /* Melhoria no layout de tabelas com totais */
+  .tabela-total {
+    width: 100%;
+    margin-top: 20px;
+    border-collapse: collapse;
+    background: #f8f9fa;
+    border-radius: 8px;
+    overflow: hidden;
+    text-align: center;
+    font-size: 15px;
+  }
+
+  .tabela-total th {
+    background: #007bff;
+    color: white;
+    padding: 10px;
+  }
+
+  .tabela-total td {
+    padding: 10px;
+    border-top: 1px solid #ddd;
+    font-weight: bold;
+  }
+
+  /* Ajuste de fontes e espaços em botões */
+  .actions button {
+    font-size: 12px;
+    padding: 8px;
+  }
+
+  /* Ajuste de botões de ação */
+  .actions {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: flex-start;
+  }
+}
+
+/* Estilo da tabela em telas grandes */
+@media (min-width: 769px) {
+  table {
+    font-size: 14px;
+  }
+  
+  table td {
+    padding: 10px;
+  }
+
+  .actions {
+    display: flex;
+    gap: 10px;
+  }
 }
