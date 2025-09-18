@@ -54,7 +54,7 @@ input, select, button {
 
 input:focus, select:focus { 
   outline: none; 
-  border-color: #3498db; 
+  border-color: #000000; 
 }
 
 button { 
