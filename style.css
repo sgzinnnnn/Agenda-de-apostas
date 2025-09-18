@@ -7,8 +7,8 @@
 
 body { 
   font-family: "Segoe UI", sans-serif; 
-  background: #f4f9f7; 
-  color: #333; 
+  background: #000000; 
+  color: #ff0000; 
   line-height: 1.6; 
 }
 
@@ -32,14 +32,14 @@ h1 {
 
 .subtitle { 
   font-size: 12px; 
-  color: #7f8c8d; 
+  color: #ff0000; 
 }
 
 .card { 
-  background: #fff; 
+  background: #000000; 
   padding: 12px; 
   border-radius: 12px; 
-  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.06); 
+  box-shadow: 0 3px 8px rgba(255, 0, 0, 0.936); 
   margin-bottom: 12px; 
 }
 
@@ -48,7 +48,7 @@ input, select, button {
   padding: 8px; 
   margin: 6px 0; 
   border-radius: 8px; 
-  border: 1px solid #ddd; 
+  border: 1px solid #ff0000; 
   font-size: 14px; 
 }
 
@@ -58,7 +58,7 @@ input:focus, select:focus {
 }
 
 button { 
-  background: #3498db; 
+  background: #db3434; 
   color: #fff; 
   font-weight: bold; 
   border: none; 
@@ -108,7 +108,7 @@ thead {
 #chart { 
   margin-top: 6px; 
   border-radius: 8px; 
-  background: #f8f9fa; 
+  background: #ffffff; 
 }
 
 .res-lucro { 
@@ -131,6 +131,43 @@ footer {
   font-size: 10px; 
   color: #7f8c8d; 
   margin-top: 8px; 
+}
+
+/* Estilo para inputs e selects */
+input[type="text"],
+input[type="number"],
+input[type="date"],
+select {
+  background-color: #d32f2f; /* vermelho */
+  color: #fff; /* texto branco */
+  border: none;
+  padding: 10px;
+  border-radius: 6px;
+  font-size: 14px;
+  width: 100%;
+}
+
+/* Ajuste para o placeholder ficar branco */
+input::placeholder {
+  color: #fff;
+  opacity: 0.7;
+}
+
+/* Botão padrão */
+button, 
+input[type="submit"] {
+  background-color: #b71c1c; /* vermelho mais escuro */
+  color: #fff;
+  border: none;
+  padding: 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+button:hover,
+input[type="submit"]:hover {
+  background-color: #ff0000; /* vermelho vivo no hover */
 }
 
 /* Responsividade Mobile */
