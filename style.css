@@ -244,6 +244,15 @@ input[type="submit"]:hover {
     height: 200px !important; 
   }
 
+  input, select, button { 
+    width: 100%; 
+    padding: 8px; 
+    margin: 6px 0; 
+    border-radius: 8px; 
+    border: 1px solid #000000; 
+    font-size: 14px; 
+  }
+
   /* Reajustando o tamanho e layout dos botões */
   td.acoes .acoes-container {
     display: flex;
