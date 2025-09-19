@@ -41,8 +41,8 @@
       <input type="text" id="odds" placeholder="Odds" step="0.01" required />
       <select id="result">
         <option value="pending">Pendente</option>
-        <option value="win">Ganha</option>
-        <option value="loss">Perdida</option>
+        <option value="Ganha">Ganha</option>
+        <option value="Perdida">Perdida</option>
       </select>
       <p>Valor de Ganho: R$ <span id="gainValue">0.00</span></p>
       <button type="submit">Adicionar</button>
@@ -82,14 +82,20 @@
     </aside>
   </section>
 
+  <div class="apostas-card">
+    <h3>Apostas</h3>
+    <p id="totalApostas">0</p>
+  </div>
+  
+
   <!-- Tabela de apostas -->
   <section class="card">
     <div class="filters">
       <select id="filter">
         <option value="all">Todos</option>
-        <option value="pending">Pendente</option>
-        <option value="win">Ganha</option>
-        <option value="loss">Perdida</option>
+        <option value="Pendente">Pendente</option>
+        <option value="Ganha">Ganha</option>
+        <option value="Perdida">Perdida</option>
       </select>
       <input type="text" id="search" placeholder="Buscar evento"/>
       <select id="sort">

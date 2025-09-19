@@ -138,7 +138,7 @@ input[type="text"],
 input[type="number"],
 input[type="date"],
 select {
-  background-color: #d32f2f; /* vermelho */
+  background-color: #ff0000; /* vermelho */
   color: #fff; /* texto branco */
   border: none;
   padding: 10px;
@@ -180,6 +180,33 @@ input[type="submit"]:hover {
   /* Ajuste nos filtros, tornando-os verticais */
   .filters { 
     flex-direction: column; 
+  }
+
+  td.total {
+    font-weight: bold;
+    color: #00ff66; /* verde */
+  }
+  
+  td.acoes {
+    display: flex;
+    flex-direction: column; /* Faz os botões ficarem um embaixo do outro */
+    gap: 8px;               /* Espaçamento entre os botões */
+    align-items: stretch;   /* Faz os botões ocuparem a largura total da célula */
+  }
+
+  button {
+    padding: 10px;
+    background-color: rgb(0, 0, 0);
+    color: white;
+    border: none;
+    cursor: pointer;
+    width: 100%; /* Faz os botões ocuparem toda a largura */
+    font-size: 14px;
+    border-radius: 6px;
+  }
+
+  button:hover {
+    background-color: darkred;
   }
 
   /* Reformatando a tabela para exibição em formato de lista */
@@ -249,7 +276,7 @@ input[type="submit"]:hover {
     padding: 8px; 
     margin: 6px 0; 
     border-radius: 8px; 
-    border: 1px solid #000000; 
+    border: 1px solid #ff0000; 
     font-size: 14px; 
   }
 
@@ -320,36 +347,37 @@ input[type="submit"]:hover {
     gap: 10px;
   }
 }
-@media (min-width: 769px) {
-  table {
-    font-size: 14px;
-  }
 
-  table td {
-    padding: 10px;
-  }
-
-  .actions {
+/* Mobile */
+@media (max-width: 768px) {
+  /* Célula da coluna Ações */
+  td:nth-of-type(7) {
     display: flex;
+    flex-direction: column; /* Ficam um embaixo do outro */
+    gap: 8px; /* Espaçamento entre botões */
+    align-items: stretch; /* Botões ocupam largura total */
+  }
+
+  td:nth-of-type(7) button {
+    width: 100%; /* Botão ocupa toda a largura */
+    font-size: 14px;
+    padding: 10px;
+    border-radius: 6px;
+  }
+}
+
+/* Desktop */
+@media (min-width: 769px) {
+  td:nth-of-type(7) {
+    display: flex;
+    flex-direction: row; /* Ficam lado a lado */
     gap: 10px;
+    align-items: center;
   }
 
-  /* <<< AQUI ESTÃO OS NOVOS AJUSTES >>> */
-  .actions button,
-  .btn {
+  td:nth-of-type(7) button {
     font-size: 14px;
     padding: 8px 14px;
-  }
-
-  .btn-toggle,
-  .btn-cashout,
-  .btn-remove {
-    font-size: 14px;
-    padding: 8px 14px;
-  }
-
-  td.acoes .botoes .btn {
-    padding: 8px 14px;
-    font-size: 14px;
+    border-radius: 6px;
   }
 }

@@ -54,8 +54,8 @@ function calcProfit(bet) {
   if (!bet) return 0;
   const stake = parseNumber(bet.stake);
   const odds = parseNumber(bet.odds);
-  if (bet.result === "win") return stake * (odds - 1);
-  if (bet.result === "loss") return -stake;
+  if (bet.result === "Ganha") return stake * (odds - 1);
+  if (bet.result === "Perdida") return -stake;
   // pendente → mostrar lucro potencial
   if (bet.result === "pending") return stake * (odds - 1);
   return 0;
@@ -91,8 +91,8 @@ function removeBet(id) {
 function toggleResult(id) {
   bets = bets.map(b => {
     if (b.id === id) {
-      if (b.result === "pending") b.result = "win";
-      else if (b.result === "win") b.result = "loss";
+      if (b.result === "pending") b.result = "Ganha";
+      else if (b.result === "Ganha") b.result = "Perdida";
       else b.result = "pending";
     }
     return b;
@@ -113,7 +113,7 @@ function cashOut(id) {
       alert("Odds inválida para Cash Out.");
       return;
     }
-    bet.result = "win";
+    bet.result = "Ganha";
     bet.stake = profitNum / (bet.odds - 1);
     save();
     render();
@@ -348,4 +348,89 @@ function importCSV(file) {
 // inicializa
 render();
 
+// Função para atualizar o número total de apostas
+function atualizarTotalApostas() {
+  const total = document.querySelectorAll("#betTable tr").length;
+  document.getElementById("totalApostas").textContent = total;
+}
+
+// Sempre que adicionar uma aposta, atualiza o contador
+document.getElementById("betForm").addEventListener("submit", function(e) {
+  e.preventDefault();
+  // ... aqui já tem sua lógica de salvar aposta na tabela ...
+
+  atualizarTotalApostas(); // atualiza após salvar
+});
+
+// Se você tiver botão de excluir aposta, chame também:
+function removerAposta(linha) {
+  linha.remove();
+  atualizarTotalApostas();
+}
+
+function adicionarAposta(data, esporte, stake, odds, resultado) {
+  // Calcula o lucro
+  let lucro = 0;
+  if (resultado === "Ganha") {
+    lucro = stake * odds - stake;
+  } else {
+    lucro = -stake;
+  }
+
+  // Calcula o total (stake + lucro)
+  const total = stake + lucro;
+
+  // Cria a linha da tabela
+  const linha = document.createElement("tr");
+  linha.innerHTML = `
+    <td>${data}</td>
+    <td>${esporte}</td>
+    <td>R$ ${stake.toFixed(2)}</td>
+    <td>${odds}</td>
+    <td>${resultado}</td>
+    <td>R$ ${lucro.toFixed(2)}</td>
+    <td class="total">R$ ${total.toFixed(2)}</td> <!-- Aqui aparece o valor automático -->
+    <td class="acoes">
+      <button class="btn-toggle">Toggle</button>
+      <button class="btn-cashout">Cash Out</button>
+      <button class="btn-remove">Remover</button>
+    </td>
+  `;
+
+  document.querySelector("tbody").appendChild(linha);
+}
+function adicionarAposta(data, esporte, stake, odds, resultado) {
+  // Converte valores para número
+  stake = parseFloat(stake);
+
+  // Calcula o lucro
+  let lucro = 0;
+  if (resultado === "Ganha") {
+    lucro = stake * odds - stake; // ganho líquido
+  } else {
+    lucro = -stake; // perda total
+  }
+
+  // Calcula o total (Stake + Lucro)
+  const total = stake + lucro;
+
+  // Cria a linha da tabela
+  const linha = document.createElement("tr");
+  linha.innerHTML = `
+    <td>${data}</td>
+    <td>${esporte}</td>
+    <td>R$ ${stake.toFixed(2)}</td>
+    <td>${odds}</td>
+    <td>${resultado}</td>
+    <td>R$ ${lucro.toFixed(2)}</td>
+    <td class="total">R$ ${total.toFixed(2)}</td>
+    <td class="acoes">
+      <button class="btn-toggle">Toggle</button>
+      <button class="btn-cashout">Cash Out</button>
+      <button class="btn-remove">Remover</button>
+    </td>
+  `;
+
+  document.querySelector("tbody").appendChild(linha);
+}
 
