@@ -434,3 +434,170 @@ function adicionarAposta(data, esporte, stake, odds, resultado) {
   document.querySelector("tbody").appendChild(linha);
 }
 
+// ------------------- AUTENTICAÇÃO ADICIONAL ------------------- //
+function getUsuarios() {
+  return JSON.parse(localStorage.getItem("usuarios") || "[]");
+}
+
+function saveUsuarios(usuarios) {
+  localStorage.setItem("usuarios", JSON.stringify(usuarios));
+}
+
+function register() {
+  const email = document.getElementById("email").value.trim();
+  const senha = document.getElementById("senha").value.trim();
+  const msg = document.getElementById("msg");
+
+  if (!email || !senha) {
+    msg.textContent = "Preencha todos os campos.";
+    msg.style.color = "red";
+    return;
+  }
+
+  let usuarios = getUsuarios();
+  if (usuarios.find(u => u.email === email)) {
+    msg.textContent = "Usuário já existe.";
+    msg.style.color = "red";
+    return;
+  }
+
+  usuarios.push({ email, senha });
+  saveUsuarios(usuarios);
+  msg.textContent = "Cadastro realizado! Agora faça login.";
+  msg.style.color = "green";
+}
+
+function login() {
+  const email = document.getElementById("email").value.trim();
+  const senha = document.getElementById("senha").value.trim();
+  const msg = document.getElementById("msg");
+
+  let usuarios = getUsuarios();
+  const user = usuarios.find(u => u.email === email && u.senha === senha);
+
+  if (user) {
+    localStorage.setItem("usuarioLogado", JSON.stringify(user));
+    msg.textContent = "Login realizado!";
+    msg.style.color = "green";
+    mostrarSistema();
+  } else {
+    msg.textContent = "Email ou senha incorretos.";
+    msg.style.color = "red";
+  }
+}
+
+function logout() {
+  localStorage.removeItem("usuarioLogado");
+  location.reload();
+}
+
+function mostrarSistema() {
+  const user = JSON.parse(localStorage.getItem("usuarioLogado") || "null");
+  const authDiv = document.getElementById("auth");
+  const sistema = document.querySelector(".grid");
+  const resumo = document.querySelector(".resumo");
+  const apostasCard = document.querySelector(".apostas-card");
+  const tabela = document.querySelector("section.card");
+
+  if (user) {
+    authDiv.style.display = "none";
+    sistema.style.display = "grid";
+    resumo.style.display = "block";
+    apostasCard.style.display = "block";
+    tabela.style.display = "block";
+
+    // botão logout
+    if (!document.getElementById("logoutBtn")) {
+      const logoutBtn = document.createElement("button");
+      logoutBtn.textContent = "Sair";
+      logoutBtn.id = "logoutBtn";
+      logoutBtn.onclick = logout;
+      logoutBtn.style.margin = "10px 0";
+      document.body.insertBefore(logoutBtn, document.querySelector("footer"));
+    }
+  } else {
+    authDiv.style.display = "block";
+    sistema.style.display = "none";
+    resumo.style.display = "none";
+    apostasCard.style.display = "none";
+    tabela.style.display = "none";
+  }
+}
+
+// chama no final para ativar
+mostrarSistema();
+// Função de logout
+function logout() {
+  // Remove usuário logado do localStorage
+  localStorage.removeItem("usuarioLogado");
+
+  // Atualiza a interface para mostrar login novamente
+  mostrarSistema();
+}
+
+// Adiciona o botão de logout automaticamente se não existir
+function criarBotaoLogout() {
+  if (!document.getElementById("logoutBtn")) {
+    const logoutBtn = document.createElement("button");
+    logoutBtn.textContent = "Sair";
+    logoutBtn.id = "logoutBtn";
+    logoutBtn.style.margin = "10px 0";
+    logoutBtn.style.backgroundColor = "#b71c1c";
+    logoutBtn.style.color = "#fff";
+    logoutBtn.style.border = "none";
+    logoutBtn.style.padding = "10px";
+    logoutBtn.style.borderRadius = "6px";
+    logoutBtn.style.cursor = "pointer";
+    logoutBtn.onclick = logout;
+    document.body.insertBefore(logoutBtn, document.querySelector("footer"));
+  }
+}
+
+// Chama essa função dentro de mostrarSistema() quando o usuário estiver logado
+const authDiv = document.getElementById("auth");
+const logoutDiv = document.getElementById("logoutDiv");
+const loginBtn = document.getElementById("loginBtn");
+const logoutBtn = document.getElementById("logoutBtn");
+const msg = document.getElementById("msg");
+const userEmailSpan = document.getElementById("userEmail");
+
+// Verifica token ao carregar
+function mostrarTela() {
+  const token = localStorage.getItem("token");
+  const email = localStorage.getItem("email");
+
+  if (token) {
+    authDiv.style.display = "none";
+    logoutDiv.style.display = "block";
+    userEmailSpan.textContent = email || "usuário";
+  } else {
+    authDiv.style.display = "block";
+    logoutDiv.style.display = "none";
+  }
+}
+
+// Login simulado
+loginBtn.addEventListener("click", () => {
+  const email = document.getElementById("email").value;
+  const senha = document.getElementById("senha").value;
+
+  if(email && senha){
+    localStorage.setItem("token", "usuarioLogado");
+    localStorage.setItem("email", email);
+    msg.textContent = "";
+    mostrarTela();
+  } else {
+    msg.textContent = "Preencha email e senha!";
+    msg.style.color = "red";
+  }
+});
+
+// Logout
+logoutBtn.addEventListener("click", () => {
+  localStorage.removeItem("token");
+  localStorage.removeItem("email");
+  mostrarTela();
+});
+
+// Inicializa
+mostrarTela();
