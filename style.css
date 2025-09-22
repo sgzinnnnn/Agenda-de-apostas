@@ -1,376 +1,296 @@
-/* Reset básico */
-* { 
-  margin: 0; 
-  padding: 0; 
-  box-sizing: border-box; 
+/* ====== RESET ====== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-body { 
-  font-family: "Segoe UI", sans-serif; 
-  background: #000000; 
-  color: #ff0000; 
-  line-height: 1.6; 
+/* ====== BASE ====== */
+body {
+  font-family: "Segoe UI", sans-serif;
+  background: #000000;
+  color: #ff0000;
+  line-height: 1.6;
+  margin: 30px;
 }
 
-.container { 
-  max-width: 1100px; 
-  margin: auto; 
-  padding: 10px; 
+.container {
+  max-width: 1100px;
+  margin: auto;
+  padding: 10px;
 }
 
-header { 
-  display: flex; 
-  flex-direction: column; 
-  align-items: center; 
-  margin-bottom: 10px; 
-  text-align: center; 
+header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 10px;
+  text-align: center;
 }
 
-h1 { 
-  font-size: 24px; 
+h1 {
+  font-size: 24px;
 }
 
-.subtitle { 
-  font-size: 12px; 
-  color: #ff0000; 
+.subtitle {
+  font-size: 12px;
+  color: #ff0000;
 }
 
-.card { 
-  background: #000000; 
-  padding: 12px; 
-  border-radius: 12px; 
-  box-shadow: 0 3px 8px rgba(255, 0, 0, 0.936); 
-  margin-bottom: 12px; 
+/* ====== COMPONENTES ====== */
+.card {
+  background: #000000;
+  padding: 12px;
+  border-radius: 12px;
+  box-shadow: 0 3px 8px rgba(255, 0, 0, 0.936);
+  margin-bottom: 12px;
 }
 
-input, select, button { 
-  width: 100%; 
-  padding: 8px; 
-  margin: 6px 0; 
-  border-radius: 8px; 
-  border: 1px solid #ff0000; 
-  font-size: 14px; 
+input,
+select,
+button {
+  width: 100%;
+  padding: 10px;
+  margin: 6px 0;
+  border-radius: 8px;
+  font-size: 14px;
 }
 
-input:focus, select:focus { 
-  outline: none; 
-  border-color: #000000; 
-}
-
-button { 
-  background: #db3434; 
-  color: #fff; 
-  font-weight: bold; 
-  border: none; 
-  cursor: pointer; 
-}
-
-button:hover { 
-  background: #000000; 
-}
-
-.grid { 
-  display: grid; 
-  grid-template-columns: 2fr 1fr; 
-  gap: 10px; 
-}
-
-.filters { 
-  display: flex; 
-  flex-wrap: wrap; 
-  gap: 6px; 
-  margin-bottom: 8px; 
-}
-
-table { 
-  width: 100%; 
-  border-collapse: collapse; 
-  font-size: 12px; 
-}
-
-th, td { 
-  padding: 6px; 
-  border-bottom: 1px solid #ddd; 
-  text-align: left; 
-}
-
-thead { 
-  background: #ecf0f1; 
-}
-
-.actions button { 
-  font-size: 10px; 
-  padding: 4px 6px; 
-  margin: 2px 2px 2px 0; 
-  border-radius: 6px; 
-}
-
-#chart { 
-  margin-top: 6px; 
-  border-radius: 8px; 
-  background: #ffffff; 
-}
-
-.res-lucro { 
-  color: #27ae60; 
-  font-weight: bold; 
-}
-
-.res-perda { 
-  color: #c0392b; 
-  font-weight: bold; 
-}
-
-.res-total { 
-  color: #2980b9; 
-  font-weight: bold; 
-}
-
-footer { 
-  text-align: center; 
-  font-size: 10px; 
-  color: #7f8c8d; 
-  margin-top: 8px; 
-}
-
-/* Estilo para inputs e selects */
+/* ====== CAMPOS DE FORMULÁRIO ====== */
 input[type="text"],
 input[type="number"],
 input[type="date"],
 select {
-  background-color: #ff0000; /* vermelho */
-  color: #fff; /* texto branco */
+  background-color: #ff0000;
+  color: #fff;
   border: none;
-  padding: 10px;
-  border-radius: 6px;
-  font-size: 14px;
-  width: 100%;
 }
 
-/* Ajuste para o placeholder ficar branco */
 input::placeholder {
   color: #fff;
   opacity: 0.7;
 }
 
-/* Botão padrão */
-button, 
+input:focus,
+select:focus {
+  outline: none;
+  border: 2px solid #ffffff;
+}
+
+/* ====== BOTÕES COM BORDA VERMELHA ====== */
+button,
 input[type="submit"] {
-  background-color: #b71c1c; /* vermelho mais escuro */
+  background-color: #000;
   color: #fff;
-  border: none;
-  padding: 12px;
+  border: 2px solid #000000;
+  padding: 10px;
   border-radius: 6px;
   cursor: pointer;
   font-weight: bold;
+  font-size: 14px;
+  transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 3px 8px rgba(255, 0, 0, 0.936); /* sombra aplicada */
 }
 
 button:hover,
 input[type="submit"]:hover {
-  background-color: #ff0000; /* vermelho vivo no hover */
+  background-color: darkred;
+  border-color: #000000;
+  box-shadow: 0 3px 8px rgba(255, 0, 0, 0.936); /* mantém sombra no hover */
 }
 
-/* Responsividade Mobile */
+
+/* ====== GRID E FILTROS ====== */
+.grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 10px;
+}
+
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 8px;
+}
+
+/* ====== TABELAS ====== */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+th,
+td {
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+  text-align: left;
+}
+
+thead {
+  background: #ecf0f1;
+}
+
+/* ====== RESULTADOS ====== */
+.res-lucro {
+  color: #27ae60;
+  font-weight: bold;
+}
+
+.res-perda {
+  color: #c0392b;
+  font-weight: bold;
+}
+
+.res-total {
+  color: #2980b9;
+  font-weight: bold;
+}
+
+/* ====== TABELA DE TOTAIS ====== */
+.tabela-total {
+  width: 100%;
+  margin-top: 20px;
+  border-collapse: collapse;
+  background: #f8f9fa;
+  border-radius: 8px;
+  overflow: hidden;
+  text-align: center;
+  font-size: 15px;
+}
+
+.tabela-total th {
+  background: #007bff;
+  color: white;
+  padding: 10px;
+}
+
+.tabela-total td {
+  padding: 10px;
+  border-top: 1px solid #ddd;
+  font-weight: bold;
+}
+
+/* ====== CHART ====== */
+#chart {
+  margin-top: 6px;
+  border-radius: 8px;
+  background: #ffffff;
+  width: 100% !important;
+  height: 200px !important;
+}
+
+/* ====== AÇÕES ====== */
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.actions button {
+  font-size: 12px;
+  padding: 8px;
+  box-shadow: 0 3px 8px rgba(255, 0, 0, 0.936); /* também nos botões de ação */
+}
+
+/* ====== FOOTER ====== */
+footer {
+  text-align: center;
+  font-size: 10px;
+  color: #7f8c8d;
+  margin-top: 8px;
+}
+
+/* ====== MOBILE ====== */
 @media (max-width: 768px) {
-  /* Ajusta a grid para telas pequenas */
-  .grid { 
-    grid-template-columns: 1fr; 
+  .grid {
+    grid-template-columns: 1fr;
   }
 
-  /* Ajuste nos filtros, tornando-os verticais */
-  .filters { 
-    flex-direction: column; 
+  .filters {
+    flex-direction: column;
   }
 
   td.total {
     font-weight: bold;
-    color: #00ff66; /* verde */
+    color: #00ff66;
   }
-  
+
+  table,
+  thead,
+  tbody,
+  th,
+  td,
+  tr {
+    display: block;
+  }
+
+  thead tr {
+    display: none;
+  }
+
+  tr {
+    margin-bottom: 12px;
+    border-bottom: 1px solid #ddd;
+  }
+
+  td {
+    position: relative;
+    padding-left: 50%;
+    text-align: left;
+    font-size: 13px;
+  }
+
+  td::before {
+    position: absolute;
+    left: 12px;
+    width: 45%;
+    font-weight: bold;
+    white-space: nowrap;
+  }
+
+  td:nth-of-type(1)::before { content: "Data"; }
+  td:nth-of-type(2)::before { content: "Esporte"; }
+  td:nth-of-type(3)::before { content: "Stake"; }
+  td:nth-of-type(4)::before { content: "Odds"; }
+  td:nth-of-type(5)::before { content: "Resultado"; }
+  td:nth-of-type(6)::before { content: "Lucro"; }
+  td:nth-of-type(7)::before { content: "Ações"; }
+
   td.acoes {
     display: flex;
-    flex-direction: column; /* Faz os botões ficarem um embaixo do outro */
-    gap: 8px;               /* Espaçamento entre os botões */
-    align-items: stretch;   /* Faz os botões ocuparem a largura total da célula */
+    flex-direction: column;
+    gap: 8px;
+    align-items: stretch;
   }
 
-  button {
-    padding: 10px;
-    background-color: rgb(0, 0, 0);
-    color: white;
-    border: none;
-    cursor: pointer;
-    width: 100%; /* Faz os botões ocuparem toda a largura */
-    font-size: 14px;
-    border-radius: 6px;
-  }
-
-  button:hover {
-    background-color: darkred;
-  }
-
-  /* Reformatando a tabela para exibição em formato de lista */
-  table, thead, tbody, th, td, tr { 
-    display: block; 
-  }
-
-  thead tr { 
-    display: none; 
-  }
-
-  tr { 
-    margin-bottom: 12px; 
-    border-bottom: 1px solid #ddd; 
-  }
-
-  td { 
-    position: relative; 
-    padding-left: 50%; 
-    text-align: left; 
-    font-size: 13px; 
-  }
-
-  td::before { 
-    position: absolute; 
-    left: 12px; 
-    width: 45%; 
-    font-weight: bold; 
-    white-space: nowrap; 
-  }
-
-  td:nth-of-type(1)::before { 
-    content: "Data"; 
-  }
-
-  td:nth-of-type(2)::before { 
-    content: "Esporte"; 
-  }
-
-  td:nth-of-type(3)::before { 
-    content: "Stake"; 
-  }
-
-  td:nth-of-type(4)::before { 
-    content: "Odds"; 
-  }
-
-  td:nth-of-type(5)::before { 
-    content: "Resultado"; 
-  }
-
-  td:nth-of-type(6)::before { 
-    content: "Lucro"; 
-  }
-
-  td:nth-of-type(7)::before { 
-    content: "Ações"; 
-  }
-
-  #chart { 
-    width: 100% !important; 
-    height: 200px !important; 
-  }
-
-  input, select, button { 
-    width: 100%; 
-    padding: 8px; 
-    margin: 6px 0; 
-    border-radius: 8px; 
-    border: 1px solid #ff0000; 
-    font-size: 14px; 
-  }
-
-  /* Reajustando o tamanho e layout dos botões */
   td.acoes .acoes-container {
     display: flex;
     justify-content: space-between;
     align-items: center;
   }
 
-  /* Ajuste de tamanho dos botões dentro das colunas */
   td.acoes .botoes .btn {
     padding: 5px 10px;
     font-size: 13px;
   }
 
-  /* Melhoria no layout de tabelas com totais */
-  .tabela-total {
-    width: 100%;
-    margin-top: 20px;
-    border-collapse: collapse;
-    background: #f8f9fa;
-    border-radius: 8px;
-    overflow: hidden;
-    text-align: center;
-    font-size: 15px;
-  }
-
-  .tabela-total th {
-    background: #007bff;
-    color: white;
-    padding: 10px;
-  }
-
-  .tabela-total td {
-    padding: 10px;
-    border-top: 1px solid #ddd;
-    font-weight: bold;
-  }
-
-  /* Ajuste de fontes e espaços em botões */
-  .actions button {
-    font-size: 12px;
-    padding: 8px;
-  }
-
-  /* Ajuste de botões de ação */
   .actions {
-    display: flex;
     flex-direction: column;
-    gap: 10px;
     align-items: flex-start;
   }
 }
 
-/* Estilo da tabela em telas grandes */
+/* ====== DESKTOP ====== */
 @media (min-width: 769px) {
   table {
     font-size: 14px;
   }
-  
-  table td {
-    padding: 10px;
-  }
 
-  .actions {
-    display: flex;
-    gap: 10px;
-  }
-}
-
-/* Mobile */
-@media (max-width: 768px) {
-  /* Célula da coluna Ações */
   td:nth-of-type(7) {
     display: flex;
-    flex-direction: column; /* Ficam um embaixo do outro */
-    gap: 8px; /* Espaçamento entre botões */
-    align-items: stretch; /* Botões ocupam largura total */
-  }
-
-  td:nth-of-type(7) button {
-    width: 100%; /* Botão ocupa toda a largura */
-    font-size: 14px;
-    padding: 10px;
-    border-radius: 6px;
-  }
-}
-
-/* Desktop */
-@media (min-width: 769px) {
-  td:nth-of-type(7) {
-    display: flex;
-    flex-direction: row; /* Ficam lado a lado */
+    flex-direction: row;
     gap: 10px;
     align-items: center;
   }
@@ -379,5 +299,5 @@ input[type="submit"]:hover {
     font-size: 14px;
     padding: 8px 14px;
     border-radius: 6px;
+    box-shadow: 0 3px 8px rgba(255, 0, 0, 0.936); /* sombra para botões na tabela */
   }
-}

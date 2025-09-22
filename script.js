@@ -434,3 +434,23 @@ function adicionarAposta(data, esporte, stake, odds, resultado) {
   document.querySelector("tbody").appendChild(linha);
 }
 
+// Função para registrar o saque
+function registrarSaque() {
+  const input = document.getElementById('valorSaque');
+  const valor = parseFloat(input.value);
+
+  if (isNaN(valor) || valor <= 0) {
+    alert('Digite um valor válido para o saque.');
+    return;
+  }
+
+  // Criar elemento de lista
+  const li = document.createElement('li');
+  li.textContent = `Saque: R$ ${valor.toFixed(2)}`;
+
+  // Adiciona na lista de saques
+  document.getElementById('listaSaques').appendChild(li);
+
+  // Limpa o campo de entrada
+  input.value = '';
+}

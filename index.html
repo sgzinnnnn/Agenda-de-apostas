@@ -43,6 +43,7 @@
         <option value="pending">Pendente</option>
         <option value="Ganha">Ganha</option>
         <option value="Perdida">Perdida</option>
+        <option value="Saque">Saque</option>
       </select>
       <p>Valor de Ganho: R$ <span id="gainValue">0.00</span></p>
       <button type="submit">Adicionar</button>
@@ -82,11 +83,21 @@
     </aside>
   </section>
 
+<div class="container">
+    <h2>Registrar Saque</h2>
+    <input type="number" id="valorSaque" placeholder="Valor do saque" />
+    <button onclick="registrarSaque()">Adicionar Saque</button>
+    
+    <h3>Lista de Saques</h3>
+    <ul id="listaSaques"></ul>
+  </div>
+  
   <div class="apostas-card">
-    <h3>Apostas</h3>
+    <h3>Apostas</h3>         
     <p id="totalApostas">0</p>
   </div>
   
+
 
   <!-- Tabela de apostas -->
   <section class="card">
