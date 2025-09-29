@@ -283,17 +283,48 @@ function importCSV(file) {
 }
 
 // ---------- SAQUES (persistência) ----------
+// ---------- SAQUES (persistência) ----------
 function renderSaques() {
   if (!listaSaques) return;
   listaSaques.innerHTML = "";
+
   saques.forEach(s => {
     const tr = document.createElement("tr");
+    // guarda o id da linha para a delegação de eventos
+    tr.dataset.id = s.id;
     tr.innerHTML = `
       <td>${s.data}</td>
       <td>R$ ${formatBR(s.valor)}</td>
       <td>${s.obs || "-"}</td>
+      <td>
+        <button type="button" class="btn-remove-saque" aria-label="Remover saque" style="color:red; font-weight:bold;">Remover</button>
+      </td>
     `;
     listaSaques.appendChild(tr);
+  });
+}
+
+// função única e global para remover saque
+function removeSaque(id) {
+  if (!confirm("Tem certeza que deseja remover este saque?")) return;
+  saques = saques.filter(s => s.id !== id);
+  saveSaques();
+  renderSaques();
+}
+
+// delegação de evento: adiciona apenas UMA vez (fora do render)
+if (listaSaques) {
+  // remova quaisquer listeners duplicados anteriores se houver (opcional)
+  // listaSaques.replaceWith(listaSaques.cloneNode(true)); // só se necessário
+
+  listaSaques.addEventListener("click", function (e) {
+    const btn = e.target.closest(".btn-remove-saque");
+    if (!btn) return;
+    const tr = btn.closest("tr");
+    if (!tr) return;
+    const id = Number(tr.dataset.id);
+    if (!isFinite(id)) return;
+    removeSaque(id);
   });
 }
 
@@ -314,6 +345,55 @@ function addSaque(e) {
   renderSaques();
   saqueForm.reset();
 }
+
+// inicializa a renderização (se já não estiver no final do arquivo)
+renderSaques();
+
+// --------- RESUMO POR DIA ---------
+const filtroData = document.getElementById("filtroData");
+const resumoDiaBody = document.getElementById("resumoDiaBody");
+
+if (filtroData) {
+  filtroData.addEventListener("change", () => renderResumoDia(filtroData.value));
+}
+
+function renderResumoDia(dateFilter) {
+  if (!resumoDiaBody) return;
+  resumoDiaBody.innerHTML = "";
+
+  // Agrupar apostas por data
+  const grouped = {};
+  bets.forEach(b => {
+    if (!b.date) return;
+    const profit = calcProfit(b);
+    if (!grouped[b.date]) grouped[b.date] = { lucro: 0, perda: 0 };
+    if (profit > 0) grouped[b.date].lucro += profit;
+    if (profit < 0) grouped[b.date].perda += Math.abs(profit);
+  });
+
+  // Se foi aplicado filtro, mostra só aquele dia
+  const dates = dateFilter ? [dateFilter] : Object.keys(grouped).sort().reverse();
+
+  dates.forEach(d => {
+    const lucro = grouped[d]?.lucro || 0;
+    const perda = grouped[d]?.perda || 0;
+    const total = lucro - perda;
+    const tr = document.createElement("tr");
+    tr.innerHTML = `
+      <td>${d}</td>
+      <td style="color:green">R$ ${formatBR(lucro)}</td>
+      <td style="color:red">R$ ${formatBR(perda)}</td>
+      <td style="color:${total >= 0 ? "green" : "red"}">R$ ${formatBR(total)}</td>
+    `;
+    resumoDiaBody.appendChild(tr);
+  });
+
+  
+}
+
+// inicializar resumo do dia
+renderResumoDia();
+
 
 // ---------- INICIALIZAÇÃO ----------
 renderBets();

@@ -149,8 +149,8 @@ thead {
 }
 
 .tabela-total th {
-  background: #007bff;
-  color: white;
+  background: #000000;
+  color: rgb(255, 0, 0);
   padding: 10px;
 }
 
@@ -161,6 +161,7 @@ thead {
 }
 
 /* ====== SAQUE ====== */
+
 .tabela-saque thead { background: #ffffff; }
 
 /* ====== CHART ====== */
@@ -184,6 +185,31 @@ thead {
 }
 
 /* ====== SAQUE CARD ====== */
+
+/* Botão de remover saque */
+.btn-remove-saque {
+  background: #000000;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 12px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background 0.3s;
+}
+
+.btn-remove-saque:hover {
+  background: #e74c3c;
+}
+
+/* Ajuste no mobile */
+@media (max-width: 600px) {
+  .btn-remove-saque {
+    font-size: 12px;
+    padding: 5px 8px;
+  }
+}
+
 .saque-card {
   background: #000000;
   color: #ff0000;
@@ -350,4 +376,38 @@ footer {
     border-radius: 6px;
     box-shadow: 0 3px 8px rgba(255, 0, 0, 0.936);
   }
+}
+/* ====== RESUMO DIA ====== */
+.resumo-dia input[type="date"] {
+  margin-bottom: 12px;
+  padding: 8px;
+  font-size: 14px;
+  border: 2px solid #ff0000;
+  border-radius: 6px;
+  background: #ff0000;
+  color: #ffffff;
+}
+
+.resumo-dia table {
+  margin-top: 10px;
+}
+
+.pagination {
+  margin-top: 12px;
+  text-align: center;
+}
+
+.pagination button {
+  background: #222;
+  color: #fff;
+  border: none;
+  margin: 2px;
+  padding: 6px 10px;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.pagination button.active {
+  background: #ff0000;
+  font-weight: bold;
 }

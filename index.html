@@ -43,7 +43,6 @@
         <option value="pending">Pendente</option>
         <option value="Ganha">Ganha</option>
         <option value="Perdida">Perdida</option>
-        <option value="Saque">Saque</option>
       </select>
       <p>Valor de Ganho: R$ <span id="gainValue">0.00</span></p>
       <button type="submit">Adicionar</button>
@@ -81,6 +80,26 @@
     </aside>
   </section>
 
+  <!-- Resumo por Dia -->
+<section class="card resumo-dia">
+  <h2>Resumo por Dia</h2>
+  <input type="date" id="filtroData" />
+  <table class="tabela-total">
+    <thead>
+      <tr>
+        <th>Data</th>
+        <th>Lucro</th>
+        <th>Perda</th>
+        <th>Total</th>
+      </tr>
+    </thead>
+    <tbody id="resumoDiaBody"></tbody>
+  </table>
+  <div id="betPagination" class="pagination"></div> <!-- paginação resumo -->
+</section>
+
+
+
 <div class="card saque-card">
   <h2>Registrar Saque</h2>
   <form id="saqueForm">
@@ -97,6 +116,7 @@
         <th>Data</th>
         <th>Valor (R$)</th>
         <th>Observação</th>
+        <th>Ações</th>
       </tr>
     </thead>
     <tbody id="listaSaques"></tbody>
@@ -139,6 +159,7 @@
       </thead>
       <tbody id="betTable"></tbody>
     </table>
+    <div id="betPagination" class="pagination"></div> <!-- paginação apostas -->
   </section>
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
