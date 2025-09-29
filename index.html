@@ -50,8 +50,6 @@
 
     </form>
 
-
-
 <script>
     // Função para calcular o valor de ganho
     function calcularGanho() {
@@ -83,21 +81,32 @@
     </aside>
   </section>
 
-<div class="container">
-    <h2>Registrar Saque</h2>
-    <input type="number" id="valorSaque" placeholder="Valor do saque" />
-    <button onclick="registrarSaque()">Adicionar Saque</button>
-    
-    <h3>Lista de Saques</h3>
-    <ul id="listaSaques"></ul>
-  </div>
+<div class="card saque-card">
+  <h2>Registrar Saque</h2>
+  <form id="saqueForm">
+    <input type="date" id="saqueData" required />
+    <input type="number" id="saqueValor" placeholder="Valor do saque" step="0.01" required />
+    <input type="text" id="saqueObs" placeholder="Observação (opcional)" />
+    <button type="submit">Adicionar Saque</button>
+  </form>
+
+  <h3>Lista de Saques</h3>
+  <table class="tabela-saque">
+    <thead>
+      <tr>
+        <th>Data</th>
+        <th>Valor (R$)</th>
+        <th>Observação</th>
+      </tr>
+    </thead>
+    <tbody id="listaSaques"></tbody>
+  </table>
+</div>
   
   <div class="apostas-card">
     <h3>Apostas</h3>         
     <p id="totalApostas">0</p>
   </div>
-  
-
 
   <!-- Tabela de apostas -->
   <section class="card">

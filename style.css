@@ -89,16 +89,15 @@ input[type="submit"] {
   font-weight: bold;
   font-size: 14px;
   transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
-  box-shadow: 0 3px 8px rgba(255, 0, 0, 0.936); /* sombra aplicada */
+  box-shadow: 0 3px 8px rgba(255, 0, 0, 0.936);
 }
 
 button:hover,
 input[type="submit"]:hover {
   background-color: darkred;
   border-color: #000000;
-  box-shadow: 0 3px 8px rgba(255, 0, 0, 0.936); /* mantém sombra no hover */
+  box-shadow: 0 3px 8px rgba(255, 0, 0, 0.936);
 }
-
 
 /* ====== GRID E FILTROS ====== */
 .grid {
@@ -133,20 +132,9 @@ thead {
 }
 
 /* ====== RESULTADOS ====== */
-.res-lucro {
-  color: #27ae60;
-  font-weight: bold;
-}
-
-.res-perda {
-  color: #c0392b;
-  font-weight: bold;
-}
-
-.res-total {
-  color: #2980b9;
-  font-weight: bold;
-}
+.res-lucro { color: #27ae60; font-weight: bold; }
+.res-perda { color: #c0392b; font-weight: bold; }
+.res-total { color: #2980b9; font-weight: bold; }
 
 /* ====== TABELA DE TOTAIS ====== */
 .tabela-total {
@@ -172,6 +160,9 @@ thead {
   font-weight: bold;
 }
 
+/* ====== SAQUE ====== */
+.tabela-saque thead { background: #ffffff; }
+
 /* ====== CHART ====== */
 #chart {
   margin-top: 6px;
@@ -187,11 +178,151 @@ thead {
   flex-wrap: wrap;
   gap: 10px;
 }
-
 .actions button {
   font-size: 12px;
   padding: 8px;
-  box-shadow: 0 3px 8px rgba(255, 0, 0, 0.936); /* também nos botões de ação */
+}
+
+/* ====== SAQUE CARD ====== */
+.saque-card {
+  background: #000000;
+  color: #ff0000;
+  padding: 12px;
+  border-radius: 12px;
+  box-shadow: 0 3px 8px rgba(255, 0, 0, 0.936);
+  margin-top: 20px;
+}
+
+.saque-card h2, .saque-card h3 { margin-bottom: 12px; }
+
+.saque-card form input,
+.saque-card form button {
+  width: 100%;
+  margin: 6px 0;
+  padding: 10px;
+  border-radius: 6px;
+  border: 2px solid #ff0000;
+  background: #ff0000;
+  color: #fff;
+  font-weight: bold;
+  font-size: 14px;
+  box-shadow: 0 3px 8px rgba(255, 0, 0, 0.936);
+}
+
+.saque-card form button:hover {
+  background: rgb(0, 0, 0);
+  cursor: pointer;
+}
+
+.tabela-saque {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 12px;
+}
+
+.tabela-saque th,
+.tabela-saque td {
+  padding: 10px;
+  border-bottom: 1px solid #ff0000;
+  font-size: 14px;
+}
+
+/* ============================= */
+/* RESPONSIVIDADE ORGANIZADA */
+/* ============================= */
+
+/* Tablets (até 1024px) */
+@media (max-width: 1024px) {
+  .grid { grid-template-columns: 1fr; }
+  .actions { justify-content: center; }
+  .actions button { font-size: 14px; padding: 10px 14px; }
+  .tabela-saque th, .tabela-saque td { font-size: 13px; }
+}
+
+/* Celulares médios (até 768px)
+   -> Importante: transformar APENAS a tabela principal de apostas em "cartões".
+   -> Manter .tabela-saque e .tabela-total como tabelas tradicionais (com rolagem horizontal).
+*/
+@media (max-width: 768px) {
+  .filters { flex-direction: column; }
+  .actions { flex-direction: column; align-items: stretch; gap: 10px; }
+  .actions button { width: 100%; font-size: 14px; padding: 10px; }
+  .saque-card { padding: 12px; }
+  .saque-card form input, .saque-card form button { font-size: 13px; padding: 10px; }
+  .tabela-saque th, .tabela-saque td { font-size: 12px; padding: 8px; word-break: break-word; }
+
+  /*
+    ** Apenas a(s) tabela(s) que NÃO sejam .tabela-saque nem .tabela-total
+    => transformar em cartão para mobile (stacked rows).
+  */
+  table:not(.tabela-saque):not(.tabela-total),
+  table:not(.tabela-saque):not(.tabela-total) thead,
+  table:not(.tabela-saque):not(.tabela-total) tbody,
+  table:not(.tabela-saque):not(.tabela-total) th,
+  table:not(.tabela-saque):not(.tabela-total) td,
+  table:not(.tabela-saque):not(.tabela-total) tr {
+    display: block;
+  }
+
+  table:not(.tabela-saque):not(.tabela-total) thead { display: none; }
+  table:not(.tabela-saque):not(.tabela-total) tr { margin-bottom: 12px; border-bottom: 1px solid #ddd; }
+  table:not(.tabela-saque):not(.tabela-total) td {
+    position: relative;
+    padding-left: 50%;
+    font-size: 13px;
+    white-space: normal;
+  }
+  table:not(.tabela-saque):not(.tabela-total) td::before {
+    position: absolute;
+    left: 12px;
+    font-weight: bold;
+    white-space: nowrap;
+  }
+  table:not(.tabela-saque):not(.tabela-total) td:nth-of-type(1)::before { content: "Data"; }
+  table:not(.tabela-saque):not(.tabela-total) td:nth-of-type(2)::before { content: "Esporte"; }
+  table:not(.tabela-saque):not(.tabela-total) td:nth-of-type(3)::before { content: "Stake"; }
+  table:not(.tabela-saque):not(.tabela-total) td:nth-of-type(4)::before { content: "Odds"; }
+  table:not(.tabela-saque):not(.tabela-total) td:nth-of-type(5)::before { content: "Resultado"; }
+  table:not(.tabela-saque):not(.tabela-total) td:nth-of-type(6)::before { content: "Lucro"; }
+  table:not(.tabela-saque):not(.tabela-total) td:nth-of-type(7)::before { content: "Ações"; }
+
+  /*
+    Manter .tabela-saque e .tabela-total como tabelas "reais" no mobile,
+    mas permitir rolagem horizontal caso fiquem largas.
+  */
+  .tabela-saque,
+  .tabela-total {
+    display: table;
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .tabela-saque thead,
+  .tabela-total thead { display: table-header-group; }
+  .tabela-saque tbody,
+  .tabela-total tbody { display: table-row-group; }
+  .tabela-saque tr,
+  .tabela-total tr { display: table-row; }
+  .tabela-saque th,
+  .tabela-total th,
+  .tabela-saque td,
+  .tabela-total td { display: table-cell; white-space: nowrap; padding: 8px; }
+}
+
+/* Celulares pequenos (até 480px) */
+@media (max-width: 480px) {
+  h1 { font-size: 20px; }
+  .saque-card { border-radius: 8px; padding: 10px; }
+  .saque-card h2, .saque-card h3 { font-size: 16px; text-align: center; }
+  .actions button { font-size: 12px; padding: 8px; }
+  td { font-size: 12px; padding: 8px; }
+
+  /* Para .tabela-saque e .tabela-total garantir espaço e rolagem */
+  .tabela-saque, .tabela-total {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
 }
 
 /* ====== FOOTER ====== */
@@ -202,91 +333,9 @@ footer {
   margin-top: 8px;
 }
 
-/* ====== MOBILE ====== */
-@media (max-width: 768px) {
-  .grid {
-    grid-template-columns: 1fr;
-  }
-
-  .filters {
-    flex-direction: column;
-  }
-
-  td.total {
-    font-weight: bold;
-    color: #00ff66;
-  }
-
-  table,
-  thead,
-  tbody,
-  th,
-  td,
-  tr {
-    display: block;
-  }
-
-  thead tr {
-    display: none;
-  }
-
-  tr {
-    margin-bottom: 12px;
-    border-bottom: 1px solid #ddd;
-  }
-
-  td {
-    position: relative;
-    padding-left: 50%;
-    text-align: left;
-    font-size: 13px;
-  }
-
-  td::before {
-    position: absolute;
-    left: 12px;
-    width: 45%;
-    font-weight: bold;
-    white-space: nowrap;
-  }
-
-  td:nth-of-type(1)::before { content: "Data"; }
-  td:nth-of-type(2)::before { content: "Esporte"; }
-  td:nth-of-type(3)::before { content: "Stake"; }
-  td:nth-of-type(4)::before { content: "Odds"; }
-  td:nth-of-type(5)::before { content: "Resultado"; }
-  td:nth-of-type(6)::before { content: "Lucro"; }
-  td:nth-of-type(7)::before { content: "Ações"; }
-
-  td.acoes {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    align-items: stretch;
-  }
-
-  td.acoes .acoes-container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-
-  td.acoes .botoes .btn {
-    padding: 5px 10px;
-    font-size: 13px;
-  }
-
-  .actions {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-}
-
-/* ====== DESKTOP ====== */
+/* ====== DESKTOP (ajuste menor) ====== */
 @media (min-width: 769px) {
-  table {
-    font-size: 14px;
-  }
+  table { font-size: 14px; }
 
   td:nth-of-type(7) {
     display: flex;
@@ -299,5 +348,6 @@ footer {
     font-size: 14px;
     padding: 8px 14px;
     border-radius: 6px;
-    box-shadow: 0 3px 8px rgba(255, 0, 0, 0.936); /* sombra para botões na tabela */
+    box-shadow: 0 3px 8px rgba(255, 0, 0, 0.936);
   }
+}
