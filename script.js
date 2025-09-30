@@ -22,20 +22,20 @@ function formatOdds(num) {
   return parseNumber(num).toFixed(2).replace(".", ",");
 }
 
+// ---------- CONFIG / ESTADO ----------
+const PAGE_SIZE = 5; // quantidade por página
+let currentBetsPage = 1;
+let currentResumoPage = 1;
+
 // ---------- DADOS (localStorage) ----------
 let bets = JSON.parse(localStorage.getItem("apostas_v2") || "[]");
 bets = bets.map(b => ({ ...b, stake: parseNumber(b.stake), odds: parseNumber(b.odds) }));
 
 let saques = JSON.parse(localStorage.getItem("saques") || "[]");
-// normalize saque valor
 saques = saques.map(s => ({ ...s, valor: parseNumber(s.valor) }));
 
-function saveBets() {
-  localStorage.setItem("apostas_v2", JSON.stringify(bets));
-}
-function saveSaques() {
-  localStorage.setItem("saques", JSON.stringify(saques));
-}
+function saveBets() { localStorage.setItem("apostas_v2", JSON.stringify(bets)); }
+function saveSaques() { localStorage.setItem("saques", JSON.stringify(saques)); }
 
 // ---------- ELEMENTOS DOM ----------
 const form = document.getElementById("betForm");
@@ -51,14 +51,72 @@ const saqueForm = document.getElementById("saqueForm");
 const listaSaques = document.getElementById("listaSaques");
 const totalApostasEl = document.getElementById("totalApostas");
 
+// PAGINAÇÃO: ids novos (veja instrução no HTML)
+const apostaPaginationEl = document.getElementById("apostasPagination");
+const resumoPaginationEl = document.getElementById("resumoPagination");
+
+// RESUMO POR DIA elementos
+const filtroData = document.getElementById("filtroData");
+const resumoDiaBody = document.getElementById("resumoDiaBody");
+
 // ---------- LISTENERS ----------
-if (form) form.addEventListener("submit", addBet);
-if (filter) filter.addEventListener("change", renderBets);
-if (search) search.addEventListener("input", renderBets);
-if (sort) sort.addEventListener("change", renderBets);
+if (form) form.addEventListener("submit", (e) => { currentBetsPage = 1; addBet(e); });
+if (filter) filter.addEventListener("change", () => { currentBetsPage = 1; renderBets(); });
+if (search) search.addEventListener("input", () => { currentBetsPage = 1; renderBets(); });
+if (sort) sort.addEventListener("change", () => { currentBetsPage = 1; renderBets(); });
 if (exportBtn) exportBtn.addEventListener("click", exportCSV);
 if (importFile) importFile.addEventListener("change", e => importCSV(e.target.files[0]));
 if (saqueForm) saqueForm.addEventListener("submit", addSaque);
+if (filtroData) filtroData.addEventListener("change", () => { currentResumoPage = 1; renderResumoDia(filtroData.value); });
+
+// ---------- FUNÇÕES AUX (PAGINAÇÃO) ----------
+function createPagination(container, totalPages, currentPage, onPageClick) {
+  if (!container) return;
+  container.innerHTML = "";
+  if (!totalPages || totalPages <= 1) return;
+
+  // botão anterior
+  const prev = document.createElement("button");
+  prev.textContent = "«";
+  prev.disabled = currentPage <= 1;
+  prev.addEventListener("click", () => { if (currentPage > 1) onPageClick(currentPage - 1); });
+  container.appendChild(prev);
+
+  const pages = [];
+  if (totalPages <= 7) {
+    for (let i = 1; i <= totalPages; i++) pages.push(i);
+  } else {
+    pages.push(1);
+    let start = Math.max(2, currentPage - 2);
+    let end = Math.min(totalPages - 1, currentPage + 2);
+    if (start > 2) pages.push("...");
+    for (let i = start; i <= end; i++) pages.push(i);
+    if (end < totalPages - 1) pages.push("...");
+    pages.push(totalPages);
+  }
+
+  pages.forEach(p => {
+    if (p === "...") {
+      const span = document.createElement("span");
+      span.textContent = "...";
+      span.style.margin = "0 6px";
+      container.appendChild(span);
+      return;
+    }
+    const btn = document.createElement("button");
+    btn.textContent = String(p);
+    if (p === currentPage) btn.classList.add("active");
+    btn.addEventListener("click", () => onPageClick(p));
+    container.appendChild(btn);
+  });
+
+  // botão próximo
+  const next = document.createElement("button");
+  next.textContent = "»";
+  next.disabled = currentPage >= totalPages;
+  next.addEventListener("click", () => { if (currentPage < totalPages) onPageClick(currentPage + 1); });
+  container.appendChild(next);
+}
 
 // ---------- LÓGICA DE APOSTAS ----------
 function calcProfit(bet) {
@@ -91,6 +149,7 @@ function addBet(e) {
   bets.unshift(newBet);
   saveBets();
   form.reset();
+  currentBetsPage = 1;
   renderBets();
 }
 
@@ -133,10 +192,12 @@ function cashOut(id) {
 
 function renderBets() {
   if (!betTable) return;
+
   // filtro
   let filtered = bets.slice();
   if (filter && filter.value !== "all") filtered = filtered.filter(b => b.result === filter.value);
   if (search && search.value) filtered = filtered.filter(b => b.event && b.event.toLowerCase().includes(search.value.toLowerCase()));
+
   // ordenação
   if (sort) {
     if (sort.value === "date_desc") filtered.sort((a, b) => (b.date || "").localeCompare(a.date || ""));
@@ -145,40 +206,54 @@ function renderBets() {
     if (sort.value === "profit_asc") filtered.sort((a, b) => calcProfit(a) - calcProfit(b));
   }
 
+  // paginação
+  const totalItems = filtered.length;
+  const totalPages = Math.max(1, Math.ceil(totalItems / PAGE_SIZE));
+  if (currentBetsPage > totalPages) currentBetsPage = totalPages;
+  const start = (currentBetsPage - 1) * PAGE_SIZE;
+  const pageItems = filtered.slice(start, start + PAGE_SIZE);
+
   betTable.innerHTML = "";
-  filtered.forEach(b => {
+
+  if (!pageItems.length) {
     const tr = document.createElement("tr");
-    tr.innerHTML = `
-      <td>${b.date || ""}</td>
-      <td>${b.event || ""}</td>
-      <td>R$ ${formatBR(b.stake)}</td>
-      <td>${formatOdds(b.odds)}</td>
-      <td>${b.result || ""}</td>
-      <td>R$ ${formatBR(calcProfit(b))}</td>
-      <td class="actions-cell">
-        <div style="display:flex; gap:6px; justify-content:flex-end; align-items:center;">
-          <button class="btn-toggle">Toggle</button>
-          <button class="btn-cashout">Cash Out</button>
-          <button class="btn-remove" style="color:red">Remover</button>
-        </div>
-      </td>
-    `;
-    // listeners
-    const btnToggle = tr.querySelector(".btn-toggle");
-    const btnCash = tr.querySelector(".btn-cashout");
-    const btnRemove = tr.querySelector(".btn-remove");
-    if (btnToggle) btnToggle.addEventListener("click", () => toggleResult(b.id));
-    if (btnCash) btnCash.addEventListener("click", () => cashOut(b.id));
-    if (btnRemove) btnRemove.addEventListener("click", () => removeBet(b.id));
-
+    tr.innerHTML = `<td colspan="7" style="text-align:center;padding:12px;">Nenhuma aposta encontrada</td>`;
     betTable.appendChild(tr);
-  });
+  } else {
+    pageItems.forEach(b => {
+      const tr = document.createElement("tr");
+      tr.innerHTML = `
+        <td>${b.date || ""}</td>
+        <td>${b.event || ""}</td>
+        <td>R$ ${formatBR(b.stake)}</td>
+        <td>${formatOdds(b.odds)}</td>
+        <td>${b.result || ""}</td>
+        <td>R$ ${formatBR(calcProfit(b))}</td>
+        <td class="actions-cell">
+          <div style="display:flex; gap:6px; justify-content:flex-end; align-items:center;">
+            <button class="btn-toggle">Toggle</button>
+            <button class="btn-cashout">Cash Out</button>
+            <button class="btn-remove" style="color:red">Remover</button>
+          </div>
+        </td>
+      `;
+      const btnToggle = tr.querySelector(".btn-toggle");
+      const btnCash = tr.querySelector(".btn-cashout");
+      const btnRemove = tr.querySelector(".btn-remove");
+      if (btnToggle) btnToggle.addEventListener("click", () => toggleResult(b.id));
+      if (btnCash) btnCash.addEventListener("click", () => cashOut(b.id));
+      if (btnRemove) btnRemove.addEventListener("click", () => removeBet(b.id));
+      betTable.appendChild(tr);
+    });
+  }
 
-  // total de apostas
+  // atualiza contador total (todas as apostas salvas)
   if (totalApostasEl) totalApostasEl.textContent = String(bets.length);
 
+  // resumo / gráfico / paginação
   updateResumo();
   if (ctx) renderChart();
+  createPagination(apostaPaginationEl, totalPages, currentBetsPage, (p) => { currentBetsPage = p; renderBets(); });
 }
 
 // ---------- RESUMO ----------
@@ -269,7 +344,6 @@ function importCSV(file) {
   const reader = new FileReader();
   reader.onload = () => {
     const lines = reader.result.split(/\r?\n/).filter(Boolean);
-    // Se o arquivo tem header, pular primeira linha (verifica se primeira linha tem "date" ou "id")
     if (lines.length && /date|id/i.test(lines[0])) lines.shift();
     lines.forEach(line => {
       const [id, date, event, stake, odds, result] = line.split(",");
@@ -283,14 +357,12 @@ function importCSV(file) {
 }
 
 // ---------- SAQUES (persistência) ----------
-// ---------- SAQUES (persistência) ----------
 function renderSaques() {
   if (!listaSaques) return;
   listaSaques.innerHTML = "";
 
   saques.forEach(s => {
     const tr = document.createElement("tr");
-    // guarda o id da linha para a delegação de eventos
     tr.dataset.id = s.id;
     tr.innerHTML = `
       <td>${s.data}</td>
@@ -304,7 +376,6 @@ function renderSaques() {
   });
 }
 
-// função única e global para remover saque
 function removeSaque(id) {
   if (!confirm("Tem certeza que deseja remover este saque?")) return;
   saques = saques.filter(s => s.id !== id);
@@ -312,11 +383,7 @@ function removeSaque(id) {
   renderSaques();
 }
 
-// delegação de evento: adiciona apenas UMA vez (fora do render)
 if (listaSaques) {
-  // remova quaisquer listeners duplicados anteriores se houver (opcional)
-  // listaSaques.replaceWith(listaSaques.cloneNode(true)); // só se necessário
-
   listaSaques.addEventListener("click", function (e) {
     const btn = e.target.closest(".btn-remove-saque");
     if (!btn) return;
@@ -346,17 +413,10 @@ function addSaque(e) {
   saqueForm.reset();
 }
 
-// inicializa a renderização (se já não estiver no final do arquivo)
+// inicializa a renderização (saques)
 renderSaques();
 
-// --------- RESUMO POR DIA ---------
-const filtroData = document.getElementById("filtroData");
-const resumoDiaBody = document.getElementById("resumoDiaBody");
-
-if (filtroData) {
-  filtroData.addEventListener("change", () => renderResumoDia(filtroData.value));
-}
-
+// --------- RESUMO POR DIA (com paginação) ---------
 function renderResumoDia(dateFilter) {
   if (!resumoDiaBody) return;
   resumoDiaBody.innerHTML = "";
@@ -371,10 +431,45 @@ function renderResumoDia(dateFilter) {
     if (profit < 0) grouped[b.date].perda += Math.abs(profit);
   });
 
-  // Se foi aplicado filtro, mostra só aquele dia
-  const dates = dateFilter ? [dateFilter] : Object.keys(grouped).sort().reverse();
+  // Se um dia específico foi filtrado, mostra só aquele dia (sem paginação)
+  if (dateFilter) {
+    if (!grouped[dateFilter]) {
+      resumoDiaBody.innerHTML = `<tr><td colspan="4" style="text-align:center;padding:12px;">Nenhum resultado para essa data</td></tr>`;
+      if (resumoPaginationEl) resumoPaginationEl.innerHTML = "";
+      return;
+    }
+    const lucro = grouped[dateFilter].lucro || 0;
+    const perda = grouped[dateFilter].perda || 0;
+    const total = lucro - perda;
+    const tr = document.createElement("tr");
+    tr.innerHTML = `
+      <td>${dateFilter}</td>
+      <td style="color:green">R$ ${formatBR(lucro)}</td>
+      <td style="color:red">R$ ${formatBR(perda)}</td>
+      <td style="color:${total >= 0 ? "green" : "red"}">R$ ${formatBR(total)}</td>
+    `;
+    resumoDiaBody.appendChild(tr);
+    if (resumoPaginationEl) resumoPaginationEl.innerHTML = "";
+    return;
+  }
 
-  dates.forEach(d => {
+  // lista todas as datas (mais recentes primeiro)
+  const dates = Object.keys(grouped).sort().reverse();
+
+  if (!dates.length) {
+    resumoDiaBody.innerHTML = `<tr><td colspan="4" style="text-align:center;padding:12px;">Nenhum dado</td></tr>`;
+    if (resumoPaginationEl) resumoPaginationEl.innerHTML = "";
+    return;
+  }
+
+  // paginação das datas
+  const totalItems = dates.length;
+  const totalPages = Math.max(1, Math.ceil(totalItems / PAGE_SIZE));
+  if (currentResumoPage > totalPages) currentResumoPage = totalPages;
+  const start = (currentResumoPage - 1) * PAGE_SIZE;
+  const pageDates = dates.slice(start, start + PAGE_SIZE);
+
+  pageDates.forEach(d => {
     const lucro = grouped[d]?.lucro || 0;
     const perda = grouped[d]?.perda || 0;
     const total = lucro - perda;
@@ -388,16 +483,11 @@ function renderResumoDia(dateFilter) {
     resumoDiaBody.appendChild(tr);
   });
 
-  
+  createPagination(resumoPaginationEl, totalPages, currentResumoPage, (p) => { currentResumoPage = p; renderResumoDia(); });
 }
 
 // inicializar resumo do dia
 renderResumoDia();
 
-
-// ---------- INICIALIZAÇÃO ----------
+// ---------- INICIALIZAÇÃO FINAL ----------
 renderBets();
-renderSaques();
-
-// Se quiser, atualiza também contador de apostas sempre que mudar bets
-// (já feito em renderBets)
